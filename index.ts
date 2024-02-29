@@ -8,10 +8,12 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { typeDefs } from './schema/typeDefs/typeDfes';
-import { resolvers } from './schema/resolves/resolvers';
-import { AppDataSource } from './config/db.confing';
-import { WebhookServer } from './webhokk/webhook';
+import { typeDefs } from './src/schema/typeDefs/typeDfes';
+import { resolvers } from './src/schema/resolves/resolvers';
+import { AppDataSource } from './src/config/db.confing';
+import { WebhookServer } from './src/webhokk/webhook';
+import  createApolloGraphqlServer  from './src/middlewares/mycontext';
+import { verifyToken } from './src/utils/jwt/verify.jwt';
 
 (async function () {
     const app = express();
@@ -21,51 +23,38 @@ import { WebhookServer } from './webhokk/webhook';
         typeDefs,
         resolvers
     });
-   
+
     WebhookServer;
 
     const wsServer = new WebSocketServer({
         server: httpServer,
         path: "/"
-    });
+    });  
 
-    const serverCleanup = useServer({ schema }, wsServer);
+    await useServer({ schema }, wsServer);
+
+    createApolloGraphqlServer
 
     const server = new ApolloServer({
         schema,
         plugins: [
             ApolloServerPluginDrainHttpServer({ httpServer }),
-            {
-                async serverWillStart() {
-                    return {
-                        async drainServer() {
-                            await serverCleanup.dispose();
-                        }
-                    }
-                }
-            }
-        ]
+        ],
+
     });
-    
 
     await server.start();
-
-
-    
     
     app.use('/', cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
 
-   
     const PORT = process.env.PORT || 4000;
     httpServer.listen(PORT, () => {
-        console.log(`Servidor corriedo en http://localhost:${PORT}/`);
+        console.log(`Servidor corriendo en http://localhost:${PORT}/`);
     });
 
-
     AppDataSource.initialize()
-    .then(() => {
-      console.log('Se conecto a la base de datos correctamente');
-    })
-    .catch((error) => console.log(error));
+        .then(() => {
+            console.log('Se conectó a la base de datos correctamente');
+        })
+        .catch((error) => console.log(error));
 })();
-

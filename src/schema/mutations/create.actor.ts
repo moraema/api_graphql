@@ -1,5 +1,5 @@
 import { Actores } from "../../entities/actores";
-
+import { verifyToken } from "../../utils/jwt/verify.jwt";
 
 export const createActor = async (_: void, args: any) => {
     try {
