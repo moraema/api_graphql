@@ -1,6 +1,6 @@
 import express from 'express';
 import { Server } from 'http';
-import { Comentarios } from '../entities/comentarios';
+import { Comentarios } from './src/entities/comentarios';
 
 export class WebhookServer {
     private app = express();

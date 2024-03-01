@@ -15,8 +15,6 @@ import { GetComentarioId } from "../querys/getId.Comentario";
 import { loginUser } from "../../auth/auth.user";
 import { pubsub } from "../subscritions/movies.subscrition";
 import { MOVIE_CREATED } from "../subscritions/movies.subscrition";
-import { WebhookServer } from "../../webhokk/webhook";
-const webhookServer = new WebhookServer();
 
 
 

@@ -11,7 +11,6 @@ import bodyParser from 'body-parser';
 import { typeDefs } from './src/schema/typeDefs/typeDfes';
 import { resolvers } from './src/schema/resolves/resolvers';
 import { AppDataSource } from './src/config/db.confing';
-import { WebhookServer } from './src/webhokk/webhook';
 import  createApolloGraphqlServer  from './src/middlewares/mycontext';
 import { verifyToken } from './src/utils/jwt/verify.jwt';
 
@@ -23,8 +22,6 @@ import { verifyToken } from './src/utils/jwt/verify.jwt';
         typeDefs,
         resolvers
     });
-
-    WebhookServer;
 
     const wsServer = new WebSocketServer({
         server: httpServer,
