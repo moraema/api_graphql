@@ -3,7 +3,6 @@ import { verifyToken } from '../utils/jwt/verify.jwt';
 import { Users } from '../entities/user';
 
 async function createApolloGraphqlServer({ req }: { req: Request }) {
-  // Extraer el token del encabezado de autorización
   try {
   const token = req.headers.authorization?.split(' ')[1] || '';
   
