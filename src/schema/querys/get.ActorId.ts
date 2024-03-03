@@ -2,7 +2,12 @@ import { Actores } from "../../entities/actores";
 
 
 
-export const GetActorId = async(_: any, args: any) => {
+export const GetActorId = async(_: any, args: any,  { user }: { user: any }) => {
+   
+    if (!user) {
+        throw new Error(' Usuario no autenticado.');
+      }
+   
     const { id } = args;
 
     try {

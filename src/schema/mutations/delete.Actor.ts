@@ -1,7 +1,11 @@
 import { Actores } from "../../entities/actores";
 
-export const deleteActor = async (_: any, args: any) => {
+export const deleteActor = async (_: any, args: any,{ user }: { user: any } ) => {
 
+
+    if (!user) {
+        throw new Error(' Usuario no autenticado.');
+      } 
     const { id  } = args.input;
     try {
     const deleteActor = await Actores.delete(id);

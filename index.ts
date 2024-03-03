@@ -1,57 +1,59 @@
-import express from 'express';
+import express, { Request, Application } from 'express';
+import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
-import { useServer } from 'graphql-ws/lib/use/ws';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { expressMiddleware } from "@apollo/server/express4";
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import { typeDefs } from './src/schema/typeDefs/typeDfes';
-import { resolvers } from './src/schema/resolves/resolvers';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { execute, subscribe } from 'graphql';
 import { AppDataSource } from './src/config/db.confing';
-import  createApolloGraphqlServer  from './src/middlewares/mycontext';
-import { verifyToken } from './src/utils/jwt/verify.jwt';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { authenticateJWT } from './src/middlewares/verify.jwt';
+import { resolvers } from './src/schema/resolves/resolvers';
+import { typeDefs } from './src/schema/typeDefs/typeDfes';
+import dotenv from 'dotenv';
+dotenv.config();
 
-(async function () {
-    const app = express();
-    const httpServer = createServer(app);
+interface CustomRequest extends Request {
+  user?: any;
+}
 
-    const schema = makeExecutableSchema({
-        typeDefs,
-        resolvers
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+
+const app: Application = express(); 
+
+const server = new ApolloServer({
+  schema,
+  context: ({ req }: { req: CustomRequest }) => {
+    return { user: req.user };
+  }
+});
+
+
+app.use(authenticateJWT); 
+
+const httpServer = createServer(app);
+
+const PORT = parseInt(process.env.PORT || "3000");
+
+httpServer.listen(PORT, async () => {
+  await server.start(); 
+  server.applyMiddleware({ app: app as any }); 
+
+  console.log(`Servidor GraphQL en http://localhost:${PORT}${server.graphqlPath}`);
+
+  AppDataSource.initialize()
+    .then(() => {
+      console.log('Se conectó a la base de datos correctamente');
     });
 
-    const wsServer = new WebSocketServer({
-        server: httpServer,
-        path: "/"
-    });  
-
-    await useServer({ schema }, wsServer);
-
-    createApolloGraphqlServer
-
-    const server = new ApolloServer({
-        schema,
-        plugins: [
-            ApolloServerPluginDrainHttpServer({ httpServer }),
-        ],
-
-    });
-
-    await server.start();
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema,
     
-    app.use('/', cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
-
-    const PORT = process.env.PORT || 4000;
-    httpServer.listen(PORT, () => {
-        console.log(`Servidor corriendo en http://localhost:${PORT}/`);
-    });
-
-    AppDataSource.initialize()
-        .then(() => {
-            console.log('Se conectó a la base de datos correctamente');
-        })
-        .catch((error) => console.log(error));
-})();
+  }, {
+    server: httpServer,
+    path: server.graphqlPath
+  });
+});

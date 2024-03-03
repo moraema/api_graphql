@@ -1,7 +1,13 @@
 import { Actores } from "../../entities/actores";
 
-export const GetActor = async (_: any, { page = 1, pageSize = 10, order = 'ASC' }: { page?: number, pageSize?: number, order?: 'ASC' | 'DESC' }) => {
+export const GetActor = async (_: any, { page = 1, pageSize = 10, order = 'ASC' }: { page?: number, pageSize?: number, order?: 'ASC' | 'DESC' },  { user }: { user: any }) => {
+
+    if (!user) {
+        throw new Error('Usuario no autneticado.');
+      }
+
     try {
+
         const skip = (page - 1) * pageSize;
 
         const actors = await Actores.find({

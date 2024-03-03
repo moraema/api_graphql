@@ -1,6 +1,12 @@
 import { Movies } from "../../entities/movies";
 
-export const GetIdMovies = async(_: any, args: any) => {
+export const GetIdMovies = async(_: any, args: any, { user }: { user: any }) => {
+
+    if (!user) {
+        throw new Error(' Usuario no autenticado.');
+      }
+
+      
     const { id } = args;
 
     try {

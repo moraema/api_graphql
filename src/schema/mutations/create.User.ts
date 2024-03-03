@@ -14,7 +14,7 @@ export const createUser = async (_: void, args: any) => {
         const newUser = await Users.create({ username, password: hashedPassword }).save();
 
 
-        return {newUser};
+        return { username, password };
         
     } catch (error) {
         throw new Error('Hubo un error al crear el usuario: ' + error);

@@ -2,7 +2,11 @@ import { Actores } from "../../entities/actores";
 import { Movies } from "../../entities/movies";
 
 
-export const deleteMovies = async (_: any, args: any) => {
+export const deleteMovies = async (_: any, args: any,  { user }: { user: any }) => {
+    if (!user) {
+        throw new Error(' Usuario no autenticado.');
+      }
+    
     const { id } = args.movies;
     
     try {
