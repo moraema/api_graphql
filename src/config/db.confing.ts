@@ -5,6 +5,7 @@ import { Users } from "../entities/user";
 import { Movies } from '../entities/movies';
 import { Actores } from '../entities/actores';
 import { Comentarios } from '../entities/comentarios';
+import { Series } from '../entities/series';
 
 
 dotenv.config();
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
    port: 3306,
    host: process.env.DB_HOST,
    database: process.env.DATA_BASE,
-   entities: [Users, Movies, Actores, Comentarios ],
+   entities: [Users, Movies, Actores, Comentarios, Series ],
    synchronize: true,
 })
 

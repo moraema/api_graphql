@@ -16,7 +16,7 @@ export const updateMovies = async (_: any, args: { movies: any }, { user }: { us
             throw new Error('La película no fue encontrada');
         }
 
-        return  true;
+        return  { title, descripcion, vistas};
     } catch (error) {
         throw new Error('Hubo un error al actualizar la película: ' + error);
     }

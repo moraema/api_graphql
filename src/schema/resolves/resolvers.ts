@@ -14,6 +14,10 @@ import { GetComentario } from "../querys/get.Cometarios";
 import { GetComentarioId } from "../querys/getId.Comentario";
 import { loginUser } from "../../auth/auth.user";
 import { pubsub } from "../subscritions/movies.subscrition";
+import { createSeries } from "../mutations/create.Series";
+import { updateSeries } from "../mutations/update.series";
+import { deleteSeries } from "../mutations/delete.series";
+import { GetSeries } from "../querys/get.series";
 import { MOVIE_CREATED } from "../subscritions/movies.subscrition";
 
 
@@ -26,7 +30,8 @@ export const resolvers = {
    GetActorId,
    GetUser,
    GetComentario,
-   GetComentarioId
+   GetComentarioId,
+   GetSeries
    },
 
   Mutation: {
@@ -37,7 +42,10 @@ export const resolvers = {
     deleteActor,
     updateMovies,
     deleteMovies,
-    createComentarios
+    createComentarios,
+    createSeries,
+    updateSeries,
+    deleteSeries
   },
   Subscription: {
     moviesSave: {

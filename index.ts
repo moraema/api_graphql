@@ -34,7 +34,7 @@ app.use(authenticateJWT);
 
 const httpServer = createServer(app);
 
-const PORT = parseInt(process.env.PORT || "3000");
+const PORT = parseInt(process.env.PORT || "4000");
 
 httpServer.listen(PORT, async () => {
   await server.start(); 

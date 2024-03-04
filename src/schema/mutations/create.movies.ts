@@ -1,6 +1,5 @@
 import { Movies } from "../../entities/movies";
 import { publishMovieSave } from "../subscritions/movies.subscrition";
-import { verify } from "jsonwebtoken";
 
 export const createMovies = async (_:void, args: any, { user }: { user: any }) => {
     if (!user) {

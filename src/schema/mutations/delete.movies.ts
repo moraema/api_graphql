@@ -17,7 +17,7 @@ export const deleteMovies = async (_: any, args: any,  { user }: { user: any }) 
             throw new Error('No se encotro la pelicula a eliminar');
         }
 
-        return true;
+        return { id };
     } catch ( error ){
         throw new Error('Hubo un error al eliminar la pelicula')
     }

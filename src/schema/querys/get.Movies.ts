@@ -24,7 +24,7 @@ export const GetMovies = async (_: any, { page = 1, pageSize = 10, order = 'ASC'
        const totalPages = Math.ceil(totalCount / pageSize);
 
        return {
-         message: "Se obtuvieron los actores correctamente",
+         message: "Se obtuvieron los peliculas correctamente",
          data : movies,
          total: totalCount,
          totalPages,

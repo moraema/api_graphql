@@ -8,6 +8,7 @@ export const typeDefs = `
     GetComentarioId(id: ID): Comentarios
     GetIdMovies(id: ID): Movies
     GetActorId(id: ID): Actores
+    GetSeries: [Series]
    }
 
   
@@ -31,6 +32,13 @@ export const typeDefs = `
     nombre: String
     apellido: String
     pelicula: String
+  }
+
+  type Series {
+    id: ID
+    titulo: String
+    temporada: String
+    capitulos: String
   }
   
   type Comentarios {
@@ -92,6 +100,14 @@ export const typeDefs = `
     pelicula: String
   }
 
+  input SeriesInput {
+    id: ID
+    titulo: String
+    temporada: String
+    capitulos: String
+    webhookurl: String
+  }
+
   input DeleteActorInput {
     id: ID!
   }
@@ -99,21 +115,23 @@ export const typeDefs = `
 
   type DeleteActorResponse {
     id: ID
-    nombre: String
-    apellido: String
   }
 
   input DeleteMoviesInput {
     id: ID!
   }
   
+  input DeleteSerieInput {
+    id: ID
+    webhookurl: String
+  }
+
   type DeleteMoviesReponse {
     id: ID
-    title: String
-    descripcion: String
-    categoria: String
-    vistas: String
+  }
 
+  type DeleteSeriesResponde {
+    id: ID
   }
 
   type LoginResponse {
@@ -128,13 +146,13 @@ export const typeDefs = `
     vistas: String
   }
   
-
-  type Comentario {
-    id: ID!
-    comentarios: String!
-    puntuacion: String!
+  input UpdateSeriesInput {
+    id: ID
+    titulo: String
+    temporada: String
+    capitulos: String
+    webhookurl: String
   }
-
   
   type Mutation {
     loginUser(username: String!, password: String!): LoginResponse!
@@ -142,10 +160,12 @@ export const typeDefs = `
     createMovies(movies: MoviesInput): Movies
     createActor(actores: ActorInput): Actores
     createComentarios(comentario: ComentarioInput): Comentarios
-    crearComentario(comentarios: String!, puntuacion: String!): Comentario!
     deleteActor(input: DeleteActorInput!): DeleteActorResponse
     updateMovies(movies: UpdateMoviesInput!): Movies
     deleteMovies(movies: DeleteMoviesInput!): DeleteMoviesReponse
+    createSeries(series: SeriesInput) : Series
+    updateSeries(series : UpdateSeriesInput): Series
+    deleteSeries(series: DeleteSerieInput): DeleteSeriesResponde
   }
 
   type Subscription {
