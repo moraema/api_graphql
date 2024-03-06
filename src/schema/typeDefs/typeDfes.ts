@@ -41,6 +41,7 @@ export const typeDefs = `
     capitulos: String
   }
   
+
   type Comentarios {
     id: ID
     comentarios: String
@@ -105,7 +106,6 @@ export const typeDefs = `
     titulo: String
     temporada: String
     capitulos: String
-    webhookurl: String
   }
 
   input DeleteActorInput {
@@ -123,7 +123,6 @@ export const typeDefs = `
   
   input DeleteSerieInput {
     id: ID
-    webhookurl: String
   }
 
   type DeleteMoviesReponse {
@@ -151,9 +150,9 @@ export const typeDefs = `
     titulo: String
     temporada: String
     capitulos: String
-    webhookurl: String
   }
   
+
   type Mutation {
     loginUser(username: String!, password: String!): LoginResponse!
     createUser(user: UserInput): User
@@ -166,6 +165,10 @@ export const typeDefs = `
     createSeries(series: SeriesInput) : Series
     updateSeries(series : UpdateSeriesInput): Series
     deleteSeries(series: DeleteSerieInput): DeleteSeriesResponde
+
+  
+    
+    
   }
 
   type Subscription {

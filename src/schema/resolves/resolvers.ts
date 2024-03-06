@@ -21,7 +21,6 @@ import { GetSeries } from "../querys/get.series";
 import { MOVIE_CREATED } from "../subscritions/movies.subscrition";
 
 
-
 export const resolvers = {
   Query: {
    GetMovies,
