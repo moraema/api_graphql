@@ -1,3 +1,5 @@
+
+
 export const typeDefs = `
 
   type Query {
@@ -10,8 +12,6 @@ export const typeDefs = `
     GetActorId(id: ID): Actores
     GetSeries: [Series]
    }
-
-  
 
   type User {
     id: ID
@@ -34,6 +34,17 @@ export const typeDefs = `
     pelicula: String
   }
 
+  type Webhooks {
+    id: ID
+    url: String
+  }
+
+  type Eventos {
+    id: ID
+    nombre: String
+    webhook: String
+  }
+
   type Series {
     id: ID
     titulo: String
@@ -41,7 +52,6 @@ export const typeDefs = `
     capitulos: String
   }
   
-
   type Comentarios {
     id: ID
     comentarios: String
@@ -93,6 +103,16 @@ export const typeDefs = `
     puntuacion: String
   }
 
+  input WebhookInput {
+    id: ID
+    url: String
+  }
+
+  input EventoInput {
+    id: ID
+    nombre: String
+    webhook: String
+  }
 
   input ActorInput {
     id: ID
@@ -152,23 +172,20 @@ export const typeDefs = `
     capitulos: String
   }
   
-
   type Mutation {
     loginUser(username: String!, password: String!): LoginResponse!
     createUser(user: UserInput): User
     createMovies(movies: MoviesInput): Movies
     createActor(actores: ActorInput): Actores
     createComentarios(comentario: ComentarioInput): Comentarios
+    createWebhooks(webhooks: WebhookInput): Webhooks
+    createEvento(eventos: EventoInput): Eventos
     deleteActor(input: DeleteActorInput!): DeleteActorResponse
     updateMovies(movies: UpdateMoviesInput!): Movies
     deleteMovies(movies: DeleteMoviesInput!): DeleteMoviesReponse
     createSeries(series: SeriesInput) : Series
     updateSeries(series : UpdateSeriesInput): Series
     deleteSeries(series: DeleteSerieInput): DeleteSeriesResponde
-
-  
-    
-    
   }
 
   type Subscription {

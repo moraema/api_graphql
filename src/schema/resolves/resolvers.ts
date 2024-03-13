@@ -18,6 +18,8 @@ import { createSeries } from "../mutations/create.Series";
 import { updateSeries } from "../mutations/update.series";
 import { deleteSeries } from "../mutations/delete.series";
 import { GetSeries } from "../querys/get.series";
+import { createWebhooks } from "../mutations/webhook";
+import { createEvento } from "../mutations/webhook";
 import { MOVIE_CREATED } from "../subscritions/movies.subscrition";
 
 
@@ -44,7 +46,10 @@ export const resolvers = {
     createComentarios,
     createSeries,
     updateSeries,
-    deleteSeries
+    deleteSeries,
+    createEvento,
+    createWebhooks
+
   },
   Subscription: {
     moviesSave: {
